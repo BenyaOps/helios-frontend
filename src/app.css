@@ -1,0 +1,18 @@
+.navbar {
+  background-color: #3498db;
+  display: flex;
+  width: 100%;
+}
+.navbar .options ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+}
+.navbar .options ul li {
+  margin-right: 10px;
+}
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
