@@ -4,9 +4,10 @@ import AvatarComponent from './Navbar/Avatar'
 const Navbar = () => {
   return (
     <div className='navbar'>
+        <div className="left">
         <div className="logo">
-            <img src="" alt="logo" />
-        </div>
+            <h2>Logo</h2>
+        </div>  
         <div className="options">
             <ul>
                 <li>Dashboard</li>
@@ -15,6 +16,8 @@ const Navbar = () => {
                 <li>Seguimiento</li>
             </ul>
         </div>
+        </div>
+        <div className="right">
         <div className="utils">
             <div className="settings">
                 <ul>
@@ -56,6 +59,7 @@ const Navbar = () => {
             <div className="avatar">
                 <AvatarComponent />
             </div>
+        </div>
         </div>
     </div>
   )

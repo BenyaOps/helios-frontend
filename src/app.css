@@ -1,7 +1,33 @@
 .navbar {
-  background-color: #3498db;
+  background-color: #1677ff;
   display: flex;
+  justify-content: space-between;
   width: 100%;
+  color: #ffffff;
+}
+.navbar .left {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.navbar .left .logo {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+.navbar .right {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.navbar .right .search {
+  background-color: white;
+  border: none;
+  border-radius: 3px;
+  color: #2c3e50;
+  font-size: 12px;
+  padding: 5px 10px;
 }
 .navbar .options ul {
   display: flex;
@@ -11,8 +37,29 @@
 .navbar .options ul li {
   margin-right: 10px;
 }
+.navbar .utils {
+  display: flex;
+  align-items: center;
+}
+.navbar .utils button {
+  background-color: #2ecc71;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 5px 10px;
+}
+.navbar .settings ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+}
+.navbar .settings ul li {
+  margin-right: 10px;
+}
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1560px;
   margin: 0 auto;
 }

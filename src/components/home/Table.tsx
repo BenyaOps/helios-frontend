@@ -12,9 +12,12 @@ interface DataType {
 }
 
 const columns: TableColumnsType<DataType> = [
-  { title: 'Name', dataIndex: 'name' },
-  { title: 'Age', dataIndex: 'age' },
-  { title: 'Address', dataIndex: 'address' },
+  { title: 'Division', dataIndex: 'division' },
+  { title: 'Division Superior', dataIndex: 'division_superior' },
+  { title: 'Colaboradores', dataIndex: 'colaboradores' },
+  { title: 'Nivel', dataIndex: 'nivel' },
+  { title: 'Sub Divisiones', dataIndex: 'sub_divisiones' },
+  { title: 'Embajadores', dataIndex: 'embajadores' },
 ];
 
 const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>((_, i) => ({
