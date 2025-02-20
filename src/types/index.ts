@@ -4,5 +4,7 @@ export type Department = {
   superior_id: number | null,
   nivel: number,
   employees_quantity: number,
-  ambassador_name: string
+  ambassador_name: string,
+  sub_departments_count: number,
+  superior_name: string
 }

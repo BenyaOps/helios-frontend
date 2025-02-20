@@ -1,6 +1,8 @@
 
 import './App.css'
-import TableComponent from './components/home/Table'
+import CardTabs from './components/home/CardTabs'
+//import TableComponent from './components/home/Table'
+//import Table2 from './components/home/Table2'
 import Navbar from './components/shared/Navbar'
 
 
@@ -10,10 +12,11 @@ function App() {
 
   return (
     <>
-  <div className='container'>
     <Navbar />
+  <div className='container'>
+    
     <h1>HOme</h1>
-    <TableComponent />
+    <CardTabs />  
   </div>
     </>
   )

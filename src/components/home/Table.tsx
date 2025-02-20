@@ -12,6 +12,7 @@ type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'
 
 interface DataType {
   key?: React.Key;
+  department_id: number,
   department_name: string,
   superior_id: number | null,
   nivel: number,
@@ -19,11 +20,14 @@ interface DataType {
   ambassador_name: string
 }
 
+
+
 type DataIndex = keyof DataType;
 
 
 const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>((_, i) => ({
   key: i,
+  department_id: i,
   department_name: `Department ${i}`,
   superior_id: i % 2 === 0 ? i : null,
   nivel: i % 3,
@@ -31,6 +35,12 @@ const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>((_, i) => 
   ambassador_name: `Ambassador ${i}`,
 }));
 
+/*const getRandomuserParams = (params: TableParams) => ({
+  results: params.pagination?.pageSize,
+  page: params.pagination?.current,
+  ...params,
+});
+*/
 
 const TableComponent = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -160,7 +170,8 @@ const TableComponent = () => {
   };
 
   const columns: TableColumnsType<DataType> = [
-    { title: 'Division', dataIndex: 'department_name',...getColumnSearchProps('department_name'), },
+    { title: 'Division', dataIndex: 'department_name',
+      ...getColumnSearchProps('department_name'), sorter: true },
     { title: 'Division Superior', dataIndex: 'superior_id' },
     { title: 'Colaboradores', dataIndex: 'employees_quantity' },
     { title: 'Nivel', dataIndex: 'nivel' },
