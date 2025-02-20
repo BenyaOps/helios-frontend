@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Flex, Table } from 'antd';
-import type { TableColumnsType, TableProps } from 'antd';
+import type { InputRef, TableColumnsType, TableProps, TableColumnType } from 'antd';
 import { Department } from '../../types';
+
+import { SearchOutlined } from '@ant-design/icons';
+import { Input, Space } from 'antd';
+import Highlighter from 'react-highlight-words';
+import type { FilterDropdownProps } from 'antd/es/table/interface';
 
 type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'];
 
@@ -14,13 +19,8 @@ interface DataType {
   ambassador_name: string
 }
 
-const columns: TableColumnsType<DataType> = [
-  { title: 'Division', dataIndex: 'department_name' },
-  { title: 'Division Superior', dataIndex: 'superior_id' },
-  { title: 'Colaboradores', dataIndex: 'employees_quantity' },
-  { title: 'Nivel', dataIndex: 'nivel' },
-  { title: 'Embajadores', dataIndex: 'ambassador_name' },
-];
+type DataIndex = keyof DataType;
+
 
 const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>((_, i) => ({
   key: i,
@@ -36,6 +36,9 @@ const TableComponent = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Department[]>([]);
+  const searchInput = useRef<InputRef>(null);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
 
   useEffect(() => {
     start();
@@ -44,11 +47,6 @@ const TableComponent = () => {
   function start() {  
     setLoading(true);
     // ajax request after empty completing
-    //setTimeout(() => {
-    //  setSelectedRowKeys([]);
-    //  setLoading(false);
-    //}, 1000);
-    //add property key in department
     fetch('http://127.0.0.1:5000/api/departments/list')
       .then((response) => response.json())
       .then((data) => data?.data?.departments as Department[])
@@ -70,6 +68,105 @@ const TableComponent = () => {
       });
   };
 
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: FilterDropdownProps['confirm'],
+    dataIndex: DataIndex,
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const getColumnSearchProps = (dataIndex: DataIndex): TableColumnType<DataType> => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setSearchText((selectedKeys as string[])[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      !!record && !!record[dataIndex] && record[dataIndex].toString().toLowerCase().includes((value as string).toLowerCase()),
+    filterDropdownProps: {
+      onOpenChange(open) {
+        if (open) {
+          setTimeout(() => searchInput.current?.select(), 100);
+        }
+      },
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
+
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText('');
+  };
+
+  const columns: TableColumnsType<DataType> = [
+    { title: 'Division', dataIndex: 'department_name',...getColumnSearchProps('department_name'), },
+    { title: 'Division Superior', dataIndex: 'superior_id' },
+    { title: 'Colaboradores', dataIndex: 'employees_quantity' },
+    { title: 'Nivel', dataIndex: 'nivel' },
+    { title: 'Embajadores', dataIndex: 'ambassador_name' },
+  ];
+
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
@@ -90,7 +187,11 @@ const TableComponent = () => {
         </Button>
         {hasSelected ? `Selected ${selectedRowKeys.length} items` : null}
       </Flex>
-      <Table<DataType> rowSelection={rowSelection} columns={columns} dataSource={data.length == 0 && loading == false ? dataSource : data} />
+      <Table<DataType> 
+      rowSelection={rowSelection} 
+      columns={columns} 
+      dataSource={data.length == 0 && loading == false ? dataSource : data} 
+      />
     </Flex>
   );
 };
