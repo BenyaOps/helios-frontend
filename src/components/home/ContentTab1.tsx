@@ -1,4 +1,3 @@
-import React from 'react'
 import ButtonsTabs from './ButtonsTabs'
 import Table2 from './Table2'
 import FIlters from './FIlters'

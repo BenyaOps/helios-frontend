@@ -4,22 +4,23 @@
   justify-content: space-between;
   width: 100%;
   color: #ffffff;
+  padding-inline: 24px;
+  box-sizing: border-box;
 }
 .navbar .left {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 16px 10px 16px 10px;
 }
 .navbar .left .logo {
   color: white;
   font-size: 20px;
   font-weight: bold;
-  margin: 0;
 }
 .navbar .right {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 16px 10px 0 10px;
 }
 .navbar .right .search {
   background-color: white;
@@ -33,9 +34,13 @@
   display: flex;
   list-style-type: none;
   padding: 0;
+  padding-left: 64px;
+  margin: 0;
 }
 .navbar .options ul li {
-  margin-right: 10px;
+  margin-right: 16px;
+  margin-left: 16px;
+  padding-block: 16px;
 }
 .navbar .utils {
   display: flex;
@@ -50,16 +55,21 @@
   font-size: 12px;
   padding: 5px 10px;
 }
+.navbar .settings {
+  margin-right: 24px;
+}
 .navbar .settings ul {
   display: flex;
   list-style-type: none;
   padding: 0;
 }
 .navbar .settings ul li {
-  margin-right: 10px;
+  margin-inline: 16px;
 }
 .container {
   width: 100%;
   max-width: 1560px;
   margin: 0 auto;
+  position: relative;
+  padding-top: 24px;
 }

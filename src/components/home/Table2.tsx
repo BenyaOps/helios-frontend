@@ -7,11 +7,11 @@ import { Department } from '../../types';
 
 type ColumnsType<T extends object = object> = TableProps<T>['columns'];
 type TablePaginationConfig = Exclude<GetProp<TableProps, 'pagination'>, boolean>;
-type Filter = {
+/*type Filter = {
   text: string;
   value: string;
   children?: Filter[];
-}
+}*/
 interface DataType {
   key?: React.Key;
   department_id: number,
@@ -69,7 +69,7 @@ const Table2: React.FC = () => {
   const [data, setData] = useState<DataType[]>();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({});
-  const [filtersColumn, setFiltersColumn] = useState<Filter[]>([]);
+  //const [filtersColumn, setFiltersColumn] = useState<Filter[]>([]);
   const [totalRows, setTotalRows] = useState<number | string>(0);
   const fetchData = () => {
     setLoading(true);

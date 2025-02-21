@@ -16,7 +16,7 @@ function App() {
     <>
     <Navbar />
   <div className='container'>
-    <h2>Organizacion</h2>
+    <h2 className='title_home'>Organizacion</h2>
     <ButtonsTItle />
     <br />
     <CardTabs />  

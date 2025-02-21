@@ -21,3 +21,21 @@ ul li {
 .ant-select-selection-item {
     color: #cccccc;
 }
+.container_buttons_title {
+   position: absolute;
+   right: 0;
+}
+
+.container_avatar {
+    color: #ffffff;
+}
+.title_home {
+    font-weight: normal;
+}
+.button_white {
+    background-color: #ffffff;
+    color: #1677ff;
+    -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+}

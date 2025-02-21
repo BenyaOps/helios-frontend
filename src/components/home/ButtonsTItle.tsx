@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DownloadOutlined, PlusOutlined, UploadOutlined, } from '@ant-design/icons';
 import { Button, Flex } from 'antd';
 import type { ConfigProviderProps } from 'antd';
@@ -12,11 +12,11 @@ const ButtonsTItle = () => {
     }, []);
     return (
 
-    <div>
+    <div className='container_buttons_title'>
         <Flex gap="small" wrap>
-                <Button type="primary" icon={<DownloadOutlined />} size={size} />
-                <Button type="primary" icon={<UploadOutlined />} size={size} />
                 <Button type="primary" icon={<PlusOutlined />} size={size} />
+                <Button type="primary" className='button_white' icon={<UploadOutlined />} size={size} />
+                <Button type="primary" className='button_white' icon={<DownloadOutlined />} size={size} />
         </Flex>
     </div>
   )

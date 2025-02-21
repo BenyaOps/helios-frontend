@@ -6,10 +6,12 @@
   justify-content: space-between;
   width: 100%;
   color: #ffffff;
+  padding-inline: 24px;
+  box-sizing: border-box;
   .left {
     display: flex;
     align-items: center;
-    padding: @padding-medium;
+    padding: 16px 10px 16px 10px;
     .logo {
       color: white;
       font-size: @font-size-large;
@@ -19,7 +21,8 @@
   .right {
     display: flex;
     align-items: center;
-    padding: @padding-medium;
+    padding: 16px 10px 0 10px;
+
     .search {
       background-color: white;
       border: none;
@@ -33,9 +36,12 @@
     display: flex;
     list-style-type: none;
     padding: 0;
-
+    padding-left: 64px;
+    margin: 0;
     li {
-      margin-right: 10px;
+      margin-right: 16px;
+      margin-left: 16px;
+      padding-block: 16px;
     }
   }
   .utils {
@@ -52,13 +58,15 @@
       padding: @padding-small @padding-medium;
     }
   }
-  .settings ul {
-    display: flex;
-    list-style-type: none;
-    padding: 0;
-
-    li {
-      margin-right: 10px;
+  .settings {
+    margin-right: 24px;
+    ul {
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+      li {
+        margin-inline: 16px;
+      }
     }
   }
 }
@@ -67,4 +75,6 @@
   width: 100%;
   max-width: 1560px;
   margin: 0 auto;
+  position: relative;
+  padding-top: 24px;
 }
