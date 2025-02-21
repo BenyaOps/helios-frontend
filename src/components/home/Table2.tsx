@@ -72,8 +72,8 @@ const Table2 = ({search}: IProps) => {
   const [data, setData] = useState<DataType[]>();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({});
+  const [totalEmployees, setTotalEmployees] = useState(0);
   //const [filtersColumn, setFiltersColumn] = useState<Filter[]>([]);
-  const [totalRows, setTotalRows] = useState<number | string>(0);
   const fetchData = () => {
     setLoading(true);
     const URL_API = import.meta.env.VITE_API_URL;
@@ -82,8 +82,7 @@ const Table2 = ({search}: IProps) => {
       fetch(`${URL_API}departments/list?${qs.stringify(getRandomuserParams(tableParams))}&search_name=${search}`)
       .then((res) => res.json())
       .then((data) => {
-        const total = data?.data?.total_employee;
-        setTotalRows(total);
+       // let total = data?.data?.total;
         return data?.data?.departments as Department[];
       })
       .then((departments) => {
@@ -103,18 +102,24 @@ const Table2 = ({search}: IProps) => {
     fetch(`${URL_API}departments/list?${qs.stringify(getRandomuserParams(tableParams))}`)
       .then((res) => res.json())
       .then((data) => {
-        const total = data?.data?.total_employee;
-        setTotalRows(total);
-        return data?.data?.departments as Department[];
+        const totalData = data?.data?.total;
+        const totalEmployees = data?.data?.total_employee;
+        return {
+          departments: data?.data?.departments as Department[],
+          total: totalData as number,
+          totalEmployees: totalEmployees as number
+        }
       })
-      .then((departments) => {
-        const newDepartments = departments.map((department, index) => {
+      .then((departmentsObj) => {
+        const newDepartments = departmentsObj.departments.map((department, index) => {
           return {
             ...department,
             key: `${index}${department.department_id}`
           }
         })
+        const totalRows = departmentsObj.total;
         setData(newDepartments);
+        setTotalEmployees(departmentsObj.totalEmployees);
         console.log({newDepartments});
         setLoading(false);
         console.log('fetchData');
@@ -123,7 +128,7 @@ const Table2 = ({search}: IProps) => {
           ...tableParams,
           pagination: {
             ...tableParams.pagination,
-            total: newDepartments.length,
+            total: totalRows == undefined ? 0 : totalRows,
             // 200 is mock data, you should read it from server
             // total: data.totalCount,
           },
@@ -183,7 +188,7 @@ const Table2 = ({search}: IProps) => {
       loading={loading}
       onChange={handleTableChange}
     />
-    <span>Total colaboradores: {totalRows}</span>
+    <span>Total colaboradores: {totalEmployees}</span>
     </>
   );
 };
