@@ -10,28 +10,49 @@ type OptionProps = {
     disabled?: boolean;
 };
 type SearchProps = GetProps<typeof Input.Search>;
-
+type IProps = {
+    search?: string;
+    setSearch: (value: string) => void;
+};
 const { Search } = Input;
 
-const FIlters = () => {
+const FIlters = ({setSearch}: IProps) => {
     const [options, setOptions] = React.useState<OptionProps[]>([]);
+    const [optionValue, setOptionValue] = React.useState<string | undefined>(undefined);
+
     React.useEffect(() => {
         setOptions([
             {value: '', label: 'Columnas'},
-            { value: 'department_name', label: 'Division' },
-            { value: 'superior_name', label: 'Division Superior' },
-            { value: 'employees_quantity', label: 'Colaboradores' },
-            { value: 'nivel', label: 'Nivel' },
-            { value: 'sub_departments_count', label: 'Sub Divisiones' },
-            { value: 'ambassador_name', label: 'Embajadores' },
+            {value: 'name', label: 'Division'},
         ]);
     }, []);
 
     const handleChangeSelect = (value: string) => {
         console.log(`selected ${value}`);
+        setOptionValue(value);
       };
      
-      const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
+      const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
+        console.log(info?.source, value);
+        console.log({optionValue});
+        try {
+            if (optionValue == undefined || optionValue == '') {
+                throw new Error('Debes seleccionar una columna y agregar un texto a buscar');
+            }
+            console.log('Buscando en la columna: ', optionValue);
+            setSearch(value);
+
+        } catch (error : any) {
+            console.error(error.message);
+        }
+        
+      };
+
+      const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        console.log(value.length);
+        
+        };
   return (
     <div className='container_filters'>
         <div>
@@ -43,7 +64,7 @@ const FIlters = () => {
             />
         </div>
         <div>
-            <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
+            <Search placeholder="input search text" onChange={e => handleChangeInput(e)} onSearch={onSearch} style={{ width: 200 }} />
         </div>
     </div>
   )

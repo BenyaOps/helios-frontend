@@ -33,6 +33,7 @@ interface TableParams {
   sortField?: SorterResult<any>['field'];
   sortOrder?: SorterResult<any>['order'];
   filters?: Parameters<GetProp<TableProps, 'onChange'>>[1];
+  search_name?: string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -60,12 +61,14 @@ const columns: ColumnsType<DataType> = [
     width: '20%',
   }*/
 ];
-
+type IProps = {
+  search: string;
+}
 const getRandomuserParams = (params: TableParams) => ({
   ...params,
 });
 
-const Table2: React.FC = () => {
+const Table2 = ({search}: IProps) => {
   const [data, setData] = useState<DataType[]>();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({});
@@ -73,7 +76,31 @@ const Table2: React.FC = () => {
   const [totalRows, setTotalRows] = useState<number | string>(0);
   const fetchData = () => {
     setLoading(true);
-    fetch(`http://127.0.0.1:5000/api/departments/list?${qs.stringify(getRandomuserParams(tableParams))}`)
+    const URL_API = import.meta.env.VITE_API_URL;
+    console.log(URL_API);
+    if (search !== '') {
+      fetch(`${URL_API}departments/list?${qs.stringify(getRandomuserParams(tableParams))}&search_name=${search}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const total = data?.data?.total_employee;
+        setTotalRows(total);
+        return data?.data?.departments as Department[];
+      })
+      .then((departments) => {
+        const newDepartments = departments.map((department, index) => {
+          return {
+            ...department,
+            key: `${index}${department.department_id}`
+          }
+        })
+        setData(newDepartments);
+        console.log({newDepartments});
+        setLoading(false);
+        console.log('fetchData');
+      });
+      return;
+    }
+    fetch(`${URL_API}departments/list?${qs.stringify(getRandomuserParams(tableParams))}`)
       .then((res) => res.json())
       .then((data) => {
         const total = data?.data?.total_employee;
@@ -96,7 +123,7 @@ const Table2: React.FC = () => {
           ...tableParams,
           pagination: {
             ...tableParams.pagination,
-            total: 40,
+            total: newDepartments.length,
             // 200 is mock data, you should read it from server
             // total: data.totalCount,
           },
@@ -110,6 +137,7 @@ const Table2: React.FC = () => {
     tableParams.order_column,
     tableParams.order,
     JSON.stringify(tableParams.filters),
+    search
   ]);
 
   const handleTableChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter) => {
