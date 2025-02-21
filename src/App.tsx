@@ -1,5 +1,7 @@
 
 import './App.css'
+import ButtonsTItle from './components/home/ButtonsTItle'
+//import ButtonsTItle from './components/home/ButtonsTItle'
 import CardTabs from './components/home/CardTabs'
 //import TableComponent from './components/home/Table'
 //import Table2 from './components/home/Table2'
@@ -14,8 +16,9 @@ function App() {
     <>
     <Navbar />
   <div className='container'>
-    
-    <h1>HOme</h1>
+    <h2>Organizacion</h2>
+    <ButtonsTItle />
+    <br />
     <CardTabs />  
   </div>
     </>

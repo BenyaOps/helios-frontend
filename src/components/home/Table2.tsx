@@ -7,7 +7,11 @@ import { Department } from '../../types';
 
 type ColumnsType<T extends object = object> = TableProps<T>['columns'];
 type TablePaginationConfig = Exclude<GetProp<TableProps, 'pagination'>, boolean>;
-
+type Filter = {
+  text: string;
+  value: string;
+  children?: Filter[];
+}
 interface DataType {
   key?: React.Key;
   department_id: number,
@@ -37,15 +41,16 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'department_name',
     sorter: true,
     //render: (name) => `${name.first} ${name.last}`,
+    
     width: '20%',
 
   },
-  { title: 'Division Superior', dataIndex: 'superior_name' },
-  { title: 'Colaboradores', dataIndex: 'employees_quantity' },
-  { title: 'Nivel', dataIndex: 'nivel' },
+  { title: 'Division Superior', dataIndex: 'superior_name', sorter: true },
+  { title: 'Colaboradores', dataIndex: 'employees_quantity' , sorter: true},
+  { title: 'Nivel', dataIndex: 'nivel', sorter: true },
+  {title: 'Sub Divisiones', dataIndex: 'sub_departments_count', sorter: true},
   { title: 'Embajadores', dataIndex: 'ambassador_name' },
-  {title: 'Sub Divisiones', dataIndex: 'sub_departments_count'},
-  {
+  /*{
     title: 'Gender',
     dataIndex: 'gender',
     filters: [
@@ -53,7 +58,7 @@ const columns: ColumnsType<DataType> = [
       { text: 'Female', value: 'female' },
     ],
     width: '20%',
-  }
+  }*/
 ];
 
 const getRandomuserParams = (params: TableParams) => ({
@@ -64,12 +69,17 @@ const Table2: React.FC = () => {
   const [data, setData] = useState<DataType[]>();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({});
-
+  const [filtersColumn, setFiltersColumn] = useState<Filter[]>([]);
+  const [totalRows, setTotalRows] = useState<number | string>(0);
   const fetchData = () => {
     setLoading(true);
     fetch(`http://127.0.0.1:5000/api/departments/list?${qs.stringify(getRandomuserParams(tableParams))}`)
       .then((res) => res.json())
-      .then((data) => data?.data?.departments as Department[])
+      .then((data) => {
+        const total = data?.data?.total_employee;
+        setTotalRows(total);
+        return data?.data?.departments as Department[];
+      })
       .then((departments) => {
         const newDepartments = departments.map((department, index) => {
           return {
@@ -78,7 +88,7 @@ const Table2: React.FC = () => {
           }
         })
         setData(newDepartments);
-        console.log(newDepartments);
+        console.log({newDepartments});
         setLoading(false);
         console.log('fetchData');
         
@@ -95,8 +105,6 @@ const Table2: React.FC = () => {
   };
 
   useEffect(fetchData, [
-    //tableParams.sortField,
-    //tableParams.sortOrder,
     tableParams.page,
     tableParams.item_to_page,
     tableParams.order_column,
@@ -138,6 +146,7 @@ const Table2: React.FC = () => {
   };
 
   return (
+    <>
     <Table<DataType>
       columns={columns}
       rowKey={(record) => record.department_id}
@@ -146,6 +155,8 @@ const Table2: React.FC = () => {
       loading={loading}
       onChange={handleTableChange}
     />
+    <span>Total colaboradores: {totalRows}</span>
+    </>
   );
 };
 

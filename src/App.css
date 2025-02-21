@@ -6,3 +6,18 @@ ul li {
     margin: 0;
     padding: 0;
 }
+
+.container_tab_buttons {
+    margin: 20px 0;
+}
+.container_tab_header {
+    display: flex;
+    justify-content: space-between;
+}
+.container_filters {
+    display: flex;
+    gap: 20px;
+}
+.ant-select-selection-item {
+    color: #cccccc;
+}

@@ -1,47 +1,46 @@
 import React, { useState } from 'react';
-import { Card } from 'antd';
-import Table2 from './Table2';
+//import { Card } from 'antd';
 
 
-const tabList = [
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
+import ContentTab1 from './ContentTab1';
+
+
+
+
+
+const items: TabsProps['items'] = [
   {
-    key: 'tab1',
-    tab: 'Divisiones',
+    key: '1',
+    label: 'Divisiones',
+    children: <ContentTab1 />,
   },
   {
-    key: 'tab2',
-    tab: 'Colaboradores',
+    key: '2',
+    label: 'Colaboradores',
+    children: <p>content2</p>,
   },
 ];
 
 
-const contentList: Record<string, React.ReactNode> = {
-  tab1: <Table2 />,
-  tab2: <p>content2</p>,
-};
-
 const CardTabs = () => {
 
-  const [activeTabKey1, setActiveTabKey1] = useState<string>('tab1');
+  const [activeTabKey1, setActiveTabKey1] = useState<string>('1');
 
-
-  const onTab1Change = (key: string) => {
+  const onChange = (key: string) => {
+    console.log(key);
     setActiveTabKey1(key);
   };
 
 
+
   return (
     <>
-      <Card
-        style={{ width: '100%' }}
-        title="Card title"
-        extra={<a href="#">More</a>}
-        tabList={tabList}
-        activeTabKey={activeTabKey1}
-        onTabChange={onTab1Change}
-      >
-        {contentList[activeTabKey1]}
-      </Card>
+      <Tabs defaultActiveKey="1" activeKey={activeTabKey1} 
+      items={items} onChange={onChange} 
+      style={{ width: '100%' }}
+      />
     </>
   )
 }
