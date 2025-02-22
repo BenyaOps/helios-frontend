@@ -77,7 +77,6 @@ const Table2 = ({search}: IProps) => {
   const fetchData = () => {
     setLoading(true);
     const URL_API = import.meta.env.VITE_API_URL;
-    console.log(URL_API);
     if (search !== '') {
       fetch(`${URL_API}departments/list?${qs.stringify(getRandomuserParams(tableParams))}&search_name=${search}`)
       .then((res) => res.json())
@@ -93,9 +92,7 @@ const Table2 = ({search}: IProps) => {
           }
         })
         setData(newDepartments);
-        console.log({newDepartments});
         setLoading(false);
-        console.log('fetchData');
       });
       return;
     }
@@ -120,9 +117,7 @@ const Table2 = ({search}: IProps) => {
         const totalRows = departmentsObj.total;
         setData(newDepartments);
         setTotalEmployees(departmentsObj.totalEmployees);
-        console.log({newDepartments});
         setLoading(false);
-        console.log('fetchData');
         
         setTableParams({
           ...tableParams,
@@ -166,10 +161,7 @@ const Table2 = ({search}: IProps) => {
       order_column : valueOrderColumn,
     });
     console.log('handleTableChange');
-    console.log(tableParams);
-    console.log(pagination);
-    console.log(filters);
-    console.log(sorter);
+    console.log({tableParams, pagination, filters, sorter});
     console.log('-------');
     
     // `dataSource` is useless since `pageSize` changed
