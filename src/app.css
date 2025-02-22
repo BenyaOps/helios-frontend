@@ -66,6 +66,10 @@
 .navbar .settings ul li {
   margin-inline: 16px;
 }
+.navbar .settings ul li svg {
+  width: 20px;
+  height: 20px;
+}
 .container {
   width: 100%;
   max-width: 1560px;

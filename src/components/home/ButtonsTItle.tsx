@@ -6,7 +6,7 @@ import type { ConfigProviderProps } from 'antd';
 type SizeType = ConfigProviderProps['componentSize'];
 
 const ButtonsTItle = () => {
-    const [size, setSize] = useState<SizeType>(); // default is 'middle'
+    const [size, setSize] = useState<SizeType>('middle'); // default is 'middle'
     useEffect(() => {
       setSize('middle');
     }, []);

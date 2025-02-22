@@ -38,7 +38,7 @@ const CardTabs = () => {
     <>
       <Tabs defaultActiveKey="1" activeKey={activeTabKey1} 
       items={items} onChange={onChange} 
-      style={{ width: '100%' }}
+      style={{ width: '100%'}}
       />
     </>
   )

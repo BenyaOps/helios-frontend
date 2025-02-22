@@ -64,7 +64,7 @@ const FIlters = ({setSearch}: IProps) => {
             />
         </div>
         <div>
-            <Search placeholder="input search text" onChange={e => handleChangeInput(e)} onSearch={onSearch} style={{ width: 200 }} />
+            <Search placeholder="Buscar" onChange={e => handleChangeInput(e)} onSearch={onSearch} style={{ width: 200 }} />
         </div>
     </div>
   )

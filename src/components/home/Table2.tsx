@@ -20,7 +20,7 @@ interface DataType {
   nivel: number,
   employees_quantity: number,
   ambassador_name: string,
-  sub_departments_count: number,
+  sub_departments_count: number | any,
   superior_name: string
 }
 
@@ -49,7 +49,9 @@ const columns: ColumnsType<DataType> = [
   { title: 'Division Superior', dataIndex: 'superior_name', sorter: true },
   { title: 'Colaboradores', dataIndex: 'employees_quantity' , sorter: true},
   { title: 'Nivel', dataIndex: 'nivel', sorter: true },
-  {title: 'Sub Divisiones', dataIndex: 'sub_departments_count', sorter: true},
+  {title: 'Sub Divisiones', dataIndex: 'sub_departments_count', sorter: true, 
+    render: (sub_departments_count) => <div className='row_sub_department'>{sub_departments_count} <button className='button_add_circle'>+</button> </div>
+  },
   { title: 'Embajadores', dataIndex: 'ambassador_name' },
   /*{
     title: 'Gender',
@@ -111,7 +113,7 @@ const Table2 = ({search}: IProps) => {
         const newDepartments = departmentsObj.departments.map((department, index) => {
           return {
             ...department,
-            key: `${index}${department.department_id}`
+            key: `${index}${department.department_id}`,
           }
         })
         const totalRows = departmentsObj.total;
@@ -180,7 +182,7 @@ const Table2 = ({search}: IProps) => {
       loading={loading}
       onChange={handleTableChange}
     />
-    <span>Total colaboradores: {totalEmployees}</span>
+    <span className='total'>Total colaboradores: {totalEmployees}</span>
     </>
   );
 };
