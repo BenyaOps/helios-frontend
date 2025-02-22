@@ -46,7 +46,7 @@ const columns: ColumnsType<DataType> = [
     width: '20%',
 
   },
-  { title: 'Division Superior', dataIndex: 'superior_name', sorter: true },
+  { title: 'Division Superior', dataIndex: 'superior_name', sorter: false },
   { title: 'Colaboradores', dataIndex: 'employees_quantity' , sorter: true},
   { title: 'Nivel', dataIndex: 'nivel', sorter: true },
   {title: 'Sub Divisiones', dataIndex: 'sub_departments_count', sorter: true, 
