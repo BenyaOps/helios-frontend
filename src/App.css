@@ -39,3 +39,13 @@ ul li {
     -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
 }
+
+.button_notification {
+    svg {
+        color: #ffffff;
+
+        path {
+            fill: #ffffff;
+        }
+    }
+}
