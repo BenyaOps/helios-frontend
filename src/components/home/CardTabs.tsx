@@ -29,7 +29,6 @@ const CardTabs = () => {
   const [activeTabKey1, setActiveTabKey1] = useState<string>('1');
 
   const onChange = (key: string) => {
-    console.log(key);
     setActiveTabKey1(key);
   };
 
